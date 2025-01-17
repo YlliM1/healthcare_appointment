@@ -1,0 +1,254 @@
+/* General Page Styles */
+html {
+    font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    
+}
+
+
+body {
+    margin-bottom:0px;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Utility Styles */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #d9ded9 !important;
+    height: 80px;
+    align-items: center; 
+    padding:0px !important;
+    margin: 0px !important;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-nav .nav-link {
+    color: #2f4f2f;
+    height: 100%; /* Full height for links */
+    display: flex;
+    align-items: center; /* Center text vertically */
+    border-bottom: 2px solid transparent; /* No border by default */
+    padding: 0 15px; /* Padding for spacing */
+    font-weight: bold;
+    font-size: 18px;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+    .navbar-nav .nav-link:hover {
+        border-bottom: 2px solid #2f4f2f; /* Border on hover */
+        color: #234f23;
+        text-decoration: none; /* Remove underline on hover */
+    }
+
+.lastnav {
+    margin-right: 100px; /* Add margin to separate from dropdown */
+}
+
+/* Dropdown Styles */
+.dropdown-menu {
+    border: none; /* Remove all borders */
+    border-bottom: 2px solid #2f4f2f; /* Only bottom border */
+    min-width: auto;
+    text-align: center;
+    padding: 0; /* Remove padding */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    .dropdown-menu .dropdown-item {
+        padding: 10px 20px; /* Adjust padding for dropdown items */
+        color: #2f4f2f; /* Text color */
+        background-color: transparent !important; /* No background color */
+        transition: background-color 0.3s, color 0.3s;
+        border: none;
+    }
+
+        .dropdown-menu .dropdown-item:hover,
+        .dropdown-menu .dropdown-item:focus,
+        .dropdown-menu .dropdown-item:active {
+            background-color: transparent !important; /* Ensure no black background */
+            color: #2f4f2f !important; /* Keep the text color consistent */
+            outline: none; /* Remove focus outline */
+        }
+
+/* Dropdown Button */
+.btn-outline-dark {
+    height: 100%; /* Full height */
+    display: flex;
+    align-items: center; /* Center vertically */
+    border: none; /* Remove border */
+    border-bottom: 2px solid transparent; /* Bottom border only */
+    padding: 0 15px; /* Adjust padding */
+    color: #2f4f2f;
+    font-weight: bold;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+    .btn-outline-dark:hover,
+    .btn-outline-dark:focus,
+    .btn-outline-dark:active {
+        border-bottom: 2px solid #2f4f2f; /* Border on hover/click */
+        color: black !important;
+        background-color: transparent !important; 
+    }
+
+/* Navbar Container Styles */
+.navbar_container {
+    height: 80px; /* Ensure full height */
+}
+
+    .navbar_container ul li {
+        font-weight: bold;
+        margin-right: 20px;
+        font-size: 18px;
+    }
+
+.hero {
+    height: 80vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+    .hero h1 {
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero p {
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    }
+
+.container {
+    padding: 0px;
+    margin: 0px;
+}
+
+.appointment-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+}
+
+    .appointment-section .image {
+        flex: 1;
+        height: 700px !important;
+        width:400px !important;
+        margin-top: 110px;
+        margin-left: 70px;
+    }
+
+        .appointment-section .image img {
+            width: 80% !important;
+            height: 100%;
+            
+        }
+
+    .appointment-section .text {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 50px 20px; /* Horizontal and vertical padding */
+        text-align: center;
+        padding-left:0px;
+    }
+
+        .appointment-section .text > div {
+            width: 80%; /* Ensure text takes more space */
+            max-width: 1000px; /* Limit max width on larger screens */
+        }
+
+        .appointment-section .text h2 {
+            font-size: 2.5rem;
+            color: #2f4f2f;
+            margin-bottom: 20px;
+        }
+
+        .appointment-section .text p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 20px;
+            
+        }
+
+    .appointment-section .appointment-btn {
+        background-color: #2f4f2f;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+        .appointment-section .appointment-btn:hover {
+            background-color: #234f23;
+        }
+
+.third-container {
+    width: 100vw;
+}
+
+.first-layout {
+    display: flex;
+    margin-top: 110px;
+    margin-left: 110px;
+    align-items:center;
+}
+
+        .first-layout img{
+            height:200px;
+            width:300px;
+        }
+
+.third-text {
+    display: flex;
+    flex-direction: column !important;
+    margin-left:100px
+}
+
+.second-layout {
+    display: flex;
+    margin-left: 220px;
+    margin-top: 110px;
+    align-items: center;
+}
+.second-layout img {
+    height: 200px;
+    width: 300px;
+}
+
+    .second-layout .third-text {
+        display: flex;
+        flex-direction: column !important;
+        margin-right: 140px
+    }
+
+footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+

@@ -1,0 +1,43 @@
+﻿body {
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.form-container {
+    display: flex;
+    width: 80%;
+    max-width: 1000px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.form-section {
+    flex: 1;
+    padding: 30px;
+}
+
+.photo-section {
+    flex: 1;
+    background: url('/images/photo1.png') no-repeat center center;
+    background-size: cover;
+}
+
+.form-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-section button {
+    background-color: #ffcc00;
+    border: none;
+}
+
+    .form-section button:hover {
+        background-color: #e6b800;
+    }
