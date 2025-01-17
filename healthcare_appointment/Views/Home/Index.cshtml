@@ -1,6 +1,8 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@{
     ViewData["Title"] = "Home Page";
 }
+
 
 <section class="hero" style="background: url('/images/photo2.jpg') no-repeat center center/cover; height: 500px; width: 100vw; margin: 0; padding: 0;">
     <div class="overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5);"></div>
@@ -10,7 +12,7 @@
         <a href="#" class="btn btn-success btn-lg" style="margin-top:20px;background-color:#415941;border:none;padding:10px;">Contact Us</a>
     </div>
 </section>
-<hr style="width:100vw;height:7px;color:darkgreen; padding:0px;margin:0px;"/>
+<hr style="width:100vw;height:7px;color:darkgreen; padding:0px;margin:0px;" />
 <section class="appointment-section" style="margin: 0; padding: 0;">
     <div class="content" style="display: flex; flex-wrap: wrap; align-items: center; width: 100vw; margin: 0;">
         <div class="image" style="flex: 1; min-width: 50%; height: 500px;">
@@ -24,14 +26,15 @@
                     Whether you're looking to book a routine check-up,
                     consult a specialist, or arrange follow-up visits, our system streamlines the process, saving you valuable time.
                 </p>
-                <button class="appointment-btn" style="background-color: #415941; color: white; border: none; padding: 10px 20px; font-size: 1rem; font-weight: bold; cursor: pointer; border-radius: 5px; transition: background-color 0.3s;">
-                    Make an Appointment
-                </button>
+                <a href="@((User.Identity.IsAuthenticated) ? "/Home/Appointments" : "/Identity/Account/Login")" class="btn btn-primary" style="background-color:#415941; border:none;padding:10px;">
+                    Book Now
+                </a>
             </div>
         </div>
     </div>
 </section>
 <hr style="width:100vw;height:7px;color:darkgreen; padding:0px;margin-top:110px;" />
+
 <section class="third-section">
     <div class="third-container">
         <div class="first-layout">

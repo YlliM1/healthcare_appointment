@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Book an Appointment";
+}
+
+@section Styles {
+    <link href="~/css/appointments.css" rel="stylesheet" />
+}
+
+<section class="appointment-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Choose a Service</h2>
+        <div class="row">
+            <!-- Card 1: General Check-Up -->
+            <div class="col-md-4 mb-4 ">
+                <div class="card">
+                    <img src="/images/general_checkup.jpg" class="card-img-top" alt="General Check-Up">
+                    <div class="card-body">
+                        <h5 class="card-title">General Check-Up</h5>
+                        <p class="card-text">A routine check-up to maintain your health and well-being.</p>
+                        <a href="/Home/Appointments/GeneralCheckUp" class="card-4-btn btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Dentist -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="/images/dentist.jpg" class="card-img-top" alt="Dentist">
+                    <div class="card-body">
+                        <h5 class="card-title">Dentist</h5>
+                        <p class="card-text">Visit a dentist for teeth cleaning, check-ups, and other dental care.</p>
+                        <a href="/Home/Appointments/Dentist" class="card-4-btn btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Cardiology -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="/images/cardiology.jpg" class="card-img-top" alt="Cardiology">
+                    <div class="card-body">
+                        <h5 class="card-title">Cardiology</h5>
+                        <p class="card-text">Consult a cardiologist for heart-related check-ups and treatments.</p>
+                        <a href="/Home/Appointments/Cardiology" class="card-4-btn btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Dermatology -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="/images/dermatology.jpg" class="card-img-top" alt="Dermatology">
+                    <div class="card-body">
+                        <h5 class="card-title">Dermatology</h5>
+                        <p class="card-text">Consult a dermatologist for skin care, acne treatment, and more.</p>
+                        <a href="/Home/Appointments/Dermatology" class=" card-4-btn btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Pediatrics -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="/images/pediatrics.jpg" class="card-img-top" alt="Pediatrics">
+                    <div class="card-body">
+                        <h5 class="card-title">Pediatrics</h5>
+                        <p class="card-text">Consult a pediatrician for children's healthcare and wellness checks.</p>
+                        <a href="/Home/Appointments/Pediatrics" class="card-4-btn btn btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

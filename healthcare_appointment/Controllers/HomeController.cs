@@ -28,5 +28,25 @@ namespace healthcare_appointment.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult Appointments()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                // Redirect to login page if not logged in
+                return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/Appointments" });
+            }
+
+            // Otherwise, show the appointments page
+            return View();
+        }
+
+
+
+
+
+
+
+
     }
 }

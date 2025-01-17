@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using healthcare_appointment.Data;
+using healthcare_appointment.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,17 +19,16 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Identity/Account/Login";  // Ensure the login path is correct
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 
-    // This will ensure that users are redirected back to the page they were originally trying to access
     options.Events.OnRedirectToLogin = async context =>
     {
         // If a user is not authorized and they are not already in the Identity area
         if (!context.Request.Path.StartsWithSegments("/Identity"))
         {
-            // If a ReturnUrl is provided, redirect there, else go to the login page
+            // If ReturnUrl is provided, use it. Otherwise, redirect to login page.
             var returnUrl = context.Request.Query["ReturnUrl"];
             if (!string.IsNullOrEmpty(returnUrl))
             {
-                context.Response.Redirect(returnUrl);
+                context.Response.Redirect("/Identity/Account/Login?returnUrl=" + returnUrl);
             }
             else
             {
@@ -59,13 +59,40 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Default route for controllers
+// Seed roles and admin user if necessary
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+    // Create roles if they do not exist
+    var roles = new[] { "Admin", "User" };
+    foreach (var role in roles)
+    {
+        var roleExist = await roleManager.RoleExistsAsync(role);
+        if (!roleExist)
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+
+    // Find the admin user by email
+    var adminUser = await userManager.FindByEmailAsync("yllmurati19@gmail.com");
+
+    if (adminUser != null)
+    {
+        // If the user exists, ensure they are in the Admin role
+        if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+        {
+            await userManager.AddToRoleAsync(adminUser, "Admin");
+        }
+    }
+}
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
-
-
 
 app.Run();
