@@ -79,7 +79,16 @@ using (var scope = app.Services.CreateScope())
     // Find the admin user by email
     var adminUser = await userManager.FindByEmailAsync("yllmurati19@gmail.com");
 
-    if (adminUser != null)
+    if (adminUser == null)
+    {
+        // If the admin user doesn't exist, create it
+        adminUser = new ApplicationUser { UserName = "yllmurati19@gmail.com", Email = "yllmurati19@gmail.com" };
+        await userManager.CreateAsync(adminUser, "Yllmurati12!");
+
+        // Add admin user to Admin role
+        await userManager.AddToRoleAsync(adminUser, "Admin");
+    }
+    else
     {
         // If the user exists, ensure they are in the Admin role
         if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
