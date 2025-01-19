@@ -1,0 +1,72 @@
+﻿@model healthcare_appointment.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+@section Styles {
+    <link href="~/css/CreateUser.css" rel="stylesheet" />
+}
+
+<h2>Edit User</h2>
+
+<form method="post">
+    <!-- First Name and Last Name in the same row -->
+    <div class="form-group row">
+        <div class="col-md-6">
+            <label asp-for="FirstName" class="control-label">First Name</label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="LastName" class="control-label">Last Name</label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Username -->
+    <div class="form-group">
+        <label asp-for="UserName" class="control-label">Username</label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+        <label for="Password">Password</label>
+        <input type="password" name="Password" class="form-control" />
+        <span class="text-danger">@ViewData["PasswordError"]</span>
+    </div>
+
+    <!-- Is Doctor Checkbox & Specialization -->
+    <div class="form-group row">
+        <!-- Is Doctor Checkbox -->
+        <div class="col-md-6">
+            <label asp-for="IsDoctor" class="control-label">Is Doctor</label>
+            <input asp-for="IsDoctor" type="checkbox" class="form-check-input" />
+            <span asp-validation-for="IsDoctor" class="text-danger"></span>
+        </div>
+
+        <!-- Service Specialization -->
+        <div class="col-md-6">
+            <label asp-for="ServiceSpecialization" class="control-label">Service Specialization</label>
+            <input asp-for="ServiceSpecialization" class="form-control" />
+            <span asp-validation-for="ServiceSpecialization" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Buttons Section -->
+    <div class="bottom-buttons">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="@Url.Action("Index", "AdminDashboard")" class="btn btn-secondary mt-2">Back to User List</a>
+    </div>
+</form>

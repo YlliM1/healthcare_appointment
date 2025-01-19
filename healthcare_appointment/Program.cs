@@ -5,46 +5,31 @@ using healthcare_appointment.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+})
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
-// Configure the default login and access denied paths
+builder.Services.AddRazorPages(); // Register Razor Pages services
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Identity/Account/Login";  // Ensure the login path is correct
+    options.LoginPath = "/Identity/Account/Login";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-
-    options.Events.OnRedirectToLogin = async context =>
-    {
-        // If a user is not authorized and they are not already in the Identity area
-        if (!context.Request.Path.StartsWithSegments("/Identity"))
-        {
-            // If ReturnUrl is provided, use it. Otherwise, redirect to login page.
-            var returnUrl = context.Request.Query["ReturnUrl"];
-            if (!string.IsNullOrEmpty(returnUrl))
-            {
-                context.Response.Redirect("/Identity/Account/Login?returnUrl=" + returnUrl);
-            }
-            else
-            {
-                context.Response.Redirect("/Identity/Account/Login");
-            }
-        }
-    };
 });
 
-// Add runtime compilation for Razor Pages
 builder.Services.AddControllersWithViews()
     .AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -59,42 +44,32 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Seed roles and admin user if necessary
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-    // Create roles if they do not exist
     var roles = new[] { "Admin", "User" };
     foreach (var role in roles)
     {
-        var roleExist = await roleManager.RoleExistsAsync(role);
-        if (!roleExist)
+        if (!await roleManager.RoleExistsAsync(role))
         {
             await roleManager.CreateAsync(new IdentityRole(role));
         }
     }
 
-    // Find the admin user by email
-    var adminUser = await userManager.FindByEmailAsync("yllmurati19@gmail.com");
+    var adminEmail = "yllmurati19@gmail.com";
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
     if (adminUser == null)
     {
-        // If the admin user doesn't exist, create it
-        adminUser = new ApplicationUser { UserName = "yllmurati19@gmail.com", Email = "yllmurati19@gmail.com" };
+        adminUser = new ApplicationUser { UserName = adminEmail, Email = adminEmail };
         await userManager.CreateAsync(adminUser, "Yllmurati12!");
-
-        // Add admin user to Admin role
         await userManager.AddToRoleAsync(adminUser, "Admin");
     }
-    else
+    else if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
     {
-        // If the user exists, ensure they are in the Admin role
-        if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
-        {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
-        }
+        await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 }
 
@@ -102,6 +77,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapRazorPages();
+app.MapRazorPages(); // Ensure Razor Pages are mapped
 
 app.Run();

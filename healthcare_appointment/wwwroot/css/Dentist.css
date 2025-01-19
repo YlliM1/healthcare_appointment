@@ -1,0 +1,132 @@
+﻿/* DentistAppointment.css */
+
+/* Basic Layout */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+}
+
+.dentist-heading {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Form Container */
+.dentist-page form {
+    max-width: 550px;
+    margin: 70px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 35%;
+}
+
+.dentist-form-group {
+    margin-bottom: 20px;
+}
+
+/* Styling for input fields and labels */
+.dentist-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.dentist-input,
+.dentist-select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Flex Layout for form groups to arrange fields side by side */
+.dentist-row {
+    display: flex;
+    gap: 20px;
+}
+
+.dentist-col-md-6 {
+    flex: 1; /* Allow each field to take equal width */
+}
+
+/* Error Message Styling */
+.dentist-error {
+    font-size: 0.875rem;
+    color: #e74c3c;
+}
+
+/* Submit Button */
+.dentist-btn-submit {
+    width: 100%;
+    padding: 15px;
+    background-color: #bfd8bf;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .dentist-btn-submit:hover {
+        background-color: #415941;
+        transition: 1s ease;
+    }
+
+/* Styling for the Alert Success Message */
+.dentist-alert-success {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Style for Buttons at the bottom */
+.dentist-bottom-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+    .dentist-bottom-buttons button,
+    .dentist-bottom-buttons a {
+        flex-grow: 1; /* Both buttons will take equal width */
+        padding: 15px; /* Same padding for both */
+        font-size: 1.2rem; /* Same font size for both */
+        border-radius: 5px;
+    }
+
+        /* Ensure both buttons fill the available space */
+        .dentist-bottom-buttons button[type="submit"],
+        .dentist-bottom-buttons a {
+            width: 100%; /* Make both buttons full width */
+        }
+
+/* Back Button */
+.dentist-btn-secondary {
+    display: block;
+    padding: 15px;
+    background-color: #bfd8bf;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem; /* Match the font size of the Create button */
+    text-decoration: none;
+    transition: background-color 0.3s;
+    width: 100%; /* Ensure it stretches to take the full width */
+    margin-top: 0px !important;
+}
+
+    .dentist-btn-secondary:hover {
+        background-color: #415941;
+        color:white;
+    }

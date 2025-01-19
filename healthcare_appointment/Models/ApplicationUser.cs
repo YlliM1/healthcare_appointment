@@ -1,9 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
-public class ApplicationUser : IdentityUser
+namespace healthcare_appointment.Models // Ensure this namespace matches your project's structure
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    public class ApplicationUser : IdentityUser
+    {
+        [Required, MaxLength(50)]
+        public string FirstName { get; set; }
+
+        [Required, MaxLength(50)]
+        public string LastName { get; set; }
+
+        public bool IsDoctor { get; set; }
+
+        [MaxLength(100)]
+        public string? ServiceSpecialization { get; set; }
+    }
 }
-
-

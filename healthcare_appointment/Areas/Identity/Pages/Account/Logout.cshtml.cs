@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using healthcare_appointment.Models;
 
 namespace healthcare_appointment.Areas.Identity.Pages.Account
 {

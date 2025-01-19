@@ -30,7 +30,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Dentist</h5>
                         <p class="card-text">Visit a dentist for teeth cleaning, check-ups, and other dental care.</p>
-                        <a href="/Home/Appointments/Dentist" class="card-4-btn btn btn-primary">Book Now</a>
+                        <a href="/Home/Dentist" class="card-4-btn btn btn-primary">Book Now</a>
                     </div>
                 </div>
             </div>
@@ -73,3 +73,12 @@
         </div>
     </div>
 </section>
+<script type="text/javascript">
+    // Log user roles to browser's console
+    @if (TempData["UserRolesLog"] != null)
+    {
+        <text>
+                    console.log('User Roles: @TempData["UserRolesLog"]');
+        </text>
+    }
+</script>

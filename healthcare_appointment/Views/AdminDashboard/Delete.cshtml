@@ -1,0 +1,15 @@
+﻿@model healthcare_appointment.Models.ApplicationUser
+@using healthcare_appointment.Models;
+
+@{
+    ViewData["Title"] = "Delete User";
+}
+
+<h2>Delete User</h2>
+
+<p>Are you sure you want to delete the user <strong>@Model.UserName</strong>?</p>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="@Url.Action("Index", "AdminDashboard")" class="btn btn-secondary">Cancel</a>
+</form>
