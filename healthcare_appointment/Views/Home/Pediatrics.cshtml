@@ -1,0 +1,90 @@
+﻿@model healthcare_appointment.Models.AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Pediatrics Appointment";
+}
+
+@section Styles {
+    <link href="~/css/Dentist.css" rel="stylesheet" />
+}
+
+<div class="container py-5 dentist-page">
+    <!-- Success message -->
+    @if (TempData["AppointmentSuccess"] != null)
+    {
+        <div class="alert alert-success dentist-alert">@TempData["AppointmentSuccess"]</div>
+    }
+
+    <!-- Form for creating appointment -->
+    <form asp-action="BookPediatrics" method="post">
+        <h2 class="text-center mb-4 dentist-heading">Book a Pediatrics Appointment</h2>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="FullName" class="form-label dentist-label">Full Name</label>
+                <input asp-for="FullName" class="form-control dentist-input" />
+                <span asp-validation-for="FullName" class="text-danger dentist-error"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="ContactNumber" class="form-label dentist-label">Contact Number</label>
+                <input asp-for="ContactNumber" class="form-control dentist-input" />
+                <span asp-validation-for="ContactNumber" class="text-danger dentist-error"></span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="AppointmentDate" class="form-label dentist-label">Appointment Date</label>
+                <input asp-for="AppointmentDate" type="date" class="form-control dentist-input" />
+                <span asp-validation-for="AppointmentDate" class="text-danger dentist-error"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="AppointmentTime" class="form-label dentist-label">Appointment Time</label>
+                <input asp-for="AppointmentTime" type="time" class="form-control dentist-input" />
+                <span asp-validation-for="AppointmentTime" class="text-danger dentist-error"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ServiceType" class="form-label dentist-label">Service Type</label>
+            <input asp-for="ServiceType" value="Pediatrics" class="form-control dentist-input" readonly />
+            <span asp-validation-for="ServiceType" class="text-danger dentist-error"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DoctorId" class="form-label dentist-label">Choose a Doctor</label>
+            <select asp-for="DoctorId" class="form-control dentist-input">
+                <option value="">-- Select a Doctor --</option>
+                @if (ViewBag.Doctors != null)
+                {
+                    var doctors = ViewBag.Doctors as IEnumerable<healthcare_appointment.Models.ApplicationUser>;
+                    if (doctors != null && doctors.Any())
+                    {
+                        foreach (var doctor in doctors)
+                        {
+                            <option value="@doctor.Id">@doctor.FirstName @doctor.LastName</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="">No doctors available</option>
+                    }
+                }
+                else
+                {
+                    <option value="">No doctors available</option>
+                }
+            </select>
+            <span asp-validation-for="DoctorId" class="text-danger dentist-error"></span>
+        </div>
+
+        <!-- Buttons side by side -->
+        <div class="dentist-bottom-buttons">
+            <button type="submit" class="dentist-btn-submit">Book Appointment</button>
+            <a href="@Url.Action("Appointments", "Home")" class="dentist-btn-secondary">Back to Appointments</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/js/appointments.js"></script>
+}
