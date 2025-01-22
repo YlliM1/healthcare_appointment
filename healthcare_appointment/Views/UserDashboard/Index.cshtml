@@ -1,2 +1,48 @@
-﻿<h2>Welcome to the User Dashboard</h2>
-<p>Manage users, appointments, and more!</p>
+﻿@model healthcare_appointment.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "User Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Shared layout for consistent design
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/AdminDashboard.css" />
+}
+
+<div class="container">
+    <h2>User Dashboard</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Email</strong></td>
+                <td>@Model.Email</td>
+            </tr>
+            <tr>
+                <td><strong>First Name</strong></td>
+                <td>@Model.FirstName</td>
+            </tr>
+            <tr>
+                <td><strong>Last Name</strong></td>
+                <td>@Model.LastName</td>
+            </tr>
+            <tr>
+                <td><strong>Is Doctor</strong></td>
+                <td>@(Model.IsDoctor ? "Yes" : "No")</td>
+            </tr>
+            <tr>
+                <td><strong>Specialization</strong></td>
+                <td>@Model.ServiceSpecialization</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a class="btn btn-primary" style="background-color: #bfd8bf; border-color: #bfd8bf; color:black;" href="@Url.Action("ChangePassword", "UserDashboard")">Change Password</a>
+    </div>
+</div>

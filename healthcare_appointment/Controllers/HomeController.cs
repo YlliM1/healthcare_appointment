@@ -251,6 +251,9 @@ namespace healthcare_appointment.Controllers
             return View("Dermatology", model);
         }
 
+      
+
+
         [HttpGet]
         public IActionResult Cardiology()
         {
@@ -302,5 +305,11 @@ namespace healthcare_appointment.Controllers
 
             return View("Cardiology", model);
         }
+
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
     }
 }
