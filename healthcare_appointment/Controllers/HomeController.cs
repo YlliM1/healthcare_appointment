@@ -311,5 +311,10 @@ namespace healthcare_appointment.Controllers
             return View();
         }
 
+        public IActionResult Services()
+        {
+            return View();
+        }
+
     }
 }

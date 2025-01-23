@@ -1,0 +1,80 @@
+﻿@section Styles {
+    <link href="~/css/Services.css" rel="stylesheet" />
+}
+
+@using Microsoft.AspNetCore.Identity
+@using healthcare_appointment.Models
+@inject SignInManager<ApplicationUser> SignInManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Services</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Our Healthcare Services</h1>
+        <p>Explore our specialized healthcare services designed to cater to your medical needs.</p>
+        <p style="color: #6c757d; font-size: 0.9rem; margin-top: 5px;">
+            Note: The list of services here is not exhaustive. Check the Appointments tab for more options.
+        </p>
+    </header>
+
+    <section class="services">
+        <!-- Service Card 1 -->
+        <div class="service-card">
+            <img src="~/images/general_checkup.jpg" alt="General Checkup" class="service-image">
+            <div class="service-content">
+                <h2>General Checkup</h2>
+                <p class="duration">Quick Visit</p>
+                <p>Stay on top of your health with a comprehensive general health checkup to monitor key metrics and ensure your overall well-being.</p>
+                <a href="@((User.Identity.IsAuthenticated) ? "/Home/Appointments" : "/Identity/Account/Login")" class="btn btn-primary" style="background-color:#415941; border:none;padding:10px;">
+                    Learn More
+                </a>
+            </div>
+        </div>
+
+        <!-- Service Card 2 -->
+        <div class="service-card">
+            <img src="~/images/cardiology.jpg" alt="Cardiology" class="service-image">
+            <div class="service-content">
+                <h2>Cardiology</h2>
+                <p class="duration">Specialized Care</p>
+                <p>Receive expert care for your heart health, including diagnostics, preventive care, and advanced treatments.</p>
+                <a href="@((User.Identity.IsAuthenticated) ? "/Home/Appointments" : "/Identity/Account/Login")" class="btn btn-primary" style="background-color:#415941; border:none;padding:10px;">
+                    Learn More
+                </a>
+            </div>
+        </div>
+
+        <!-- Service Card 3 -->
+        <div class="service-card">
+            <img src="~/images/pediatrics.jpg" alt="Pediatrics" class="service-image">
+            <div class="service-content">
+                <h2>Pediatrics</h2>
+                <p class="duration">Child Care</p>
+                <p>Ensure your child's health and development with personalized pediatric care tailored for their unique needs.</p>
+                <a href="@((User.Identity.IsAuthenticated) ? "/Home/Appointments" : "/Identity/Account/Login")" class="btn btn-primary" style="background-color:#415941; border:none;padding:10px;">
+                    Learn More
+                </a>
+            </div>
+        </div>
+
+        <!-- Service Card 4 -->
+        <div class="service-card">
+            <img src="~/images/dentist.jpg" alt="Dental Care" class="service-image">
+            <div class="service-content">
+                <h2>Dental Care</h2>
+                <p class="duration">Comprehensive</p>
+                <p>Maintain your oral health with our dental services, including cleanings, restorative care, and cosmetic dentistry.</p>
+                <a href="@((User.Identity.IsAuthenticated) ? "/Home/Appointments" : "/Identity/Account/Login")" class="btn btn-primary" style="background-color:#415941; border:none;padding:10px;">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
