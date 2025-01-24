@@ -9,4 +9,5 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
     }
     public DbSet<Appointment> Appointments { get; set; }
+    public DbSet<Contact> Contacts { get; set; }
 }
