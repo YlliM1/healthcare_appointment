@@ -18,8 +18,19 @@ namespace healthcare_appointment.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchTerm)
         {
+            var doctorsQuery = _context.Users
+                .Where(u => u.IsDoctor);
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                doctorsQuery = doctorsQuery.Where(u => u.FirstName.Contains(searchTerm) || u.LastName.Contains(searchTerm));
+            }
+
+            var doctors = doctorsQuery.ToList();
+            ViewBag.Doctors = doctors;
+
             return View();
         }
 
@@ -44,18 +55,25 @@ namespace healthcare_appointment.Controllers
             return View();
         }
 
+        // Dentist Appointment
         [HttpGet]
-        public IActionResult Dentist()
+        public IActionResult Dentist(string specialization)
         {
             if (!User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/Dentist" });
             }
 
-            var doctors = _context.Users
-                .Where(u => u.IsDoctor && u.ServiceSpecialization == "Dentist")
-                .ToList();
+            var doctorsQuery = _context.Users
+                .Where(u => u.IsDoctor && u.ServiceSpecialization == "Dentist");
 
+            if (!string.IsNullOrEmpty(specialization))
+            {
+                doctorsQuery = doctorsQuery.Where(u => u.ServiceSpecialization.Contains(specialization));
+            }
+
+            var doctors = doctorsQuery.ToList();
+            ViewBag.Specializations = new List<string> { "Dentist", "General Checkup", "Cardiology", "Dermatology", "Pediatrics" };
             ViewBag.Doctors = doctors;
 
             return View();
@@ -94,6 +112,242 @@ namespace healthcare_appointment.Controllers
             ViewBag.Doctors = doctors;
 
             return View("Dentist", model);
+        }
+
+        // General Check-Up Appointment
+        [HttpGet]
+        public IActionResult GeneralCheckup(string specialization)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/GeneralCheckup" });
+            }
+
+            var doctorsQuery = _context.Users
+                .Where(u => u.IsDoctor && u.ServiceSpecialization == "General Checkup");
+
+            if (!string.IsNullOrEmpty(specialization))
+            {
+                doctorsQuery = doctorsQuery.Where(u => u.ServiceSpecialization.Contains(specialization));
+            }
+
+            var doctors = doctorsQuery.ToList();
+            ViewBag.Specializations = new List<string> { "Dentist", "General Checkup", "Cardiology", "Dermatology", "Pediatrics" };
+            ViewBag.Doctors = doctors;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult BookGeneralCheckup(AppointmentViewModel model)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/GeneralCheckup" });
+            }
+
+            if (ModelState.IsValid)
+            {
+                var appointment = new Appointment
+                {
+                    FullName = model.FullName,
+                    ContactNumber = model.ContactNumber,
+                    AppointmentDate = model.AppointmentDate,
+                    AppointmentTime = model.AppointmentTime,
+                    ServiceType = model.ServiceType,
+                    DoctorId = model.DoctorId
+                };
+
+                _context.Appointments.Add(appointment);
+                _context.SaveChanges();
+
+                TempData["AppointmentSuccess"] = "Your appointment has been booked successfully!";
+                return RedirectToAction("Appointments", "Home");
+            }
+
+            var doctors = _context.Users
+                .Where(u => u.IsDoctor && u.ServiceSpecialization == "General Check-Up")
+                .ToList();
+            ViewBag.Doctors = doctors;
+
+            return View("GeneralCheckup", model);
+        }
+
+        // Cardiology Appointment
+        [HttpGet]
+        public IActionResult Cardiology(string specialization)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/Cardiology" });
+            }
+
+            var doctorsQuery = _context.Users
+                .Where(u => u.IsDoctor && u.ServiceSpecialization == "Cardiology");
+
+            if (!string.IsNullOrEmpty(specialization))
+            {
+                doctorsQuery = doctorsQuery.Where(u => u.ServiceSpecialization.Contains(specialization));
+            }
+
+            var doctors = doctorsQuery.ToList();
+            ViewBag.Specializations = new List<string> { "Dentist", "General Checkup", "Cardiology", "Dermatology", "Pediatrics" };
+            ViewBag.Doctors = doctors;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult BookCardiology(AppointmentViewModel model)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/Cardiology" });
+            }
+
+            if (ModelState.IsValid)
+            {
+                var appointment = new Appointment
+                {
+                    FullName = model.FullName,
+                    ContactNumber = model.ContactNumber,
+                    AppointmentDate = model.AppointmentDate,
+                    AppointmentTime = model.AppointmentTime,
+                    ServiceType = model.ServiceType,
+                    DoctorId = model.DoctorId
+                };
+
+                _context.Appointments.Add(appointment);
+                _context.SaveChanges();
+
+                TempData["AppointmentSuccess"] = "Your appointment has been booked successfully!";
+                return RedirectToAction("Appointments", "Home");
+            }
+
+            var doctors = _context.Users
+                .Where(u => u.IsDoctor && u.ServiceSpecialization == "Cardiology")
+                .ToList();
+            ViewBag.Doctors = doctors;
+
+            return View("Cardiology", model);
+        }
+
+        // Dermatology Appointment
+        [HttpGet]
+        public IActionResult Dermatology(string specialization)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/Dermatology" });
+            }
+
+            var doctorsQuery = _context.Users
+                .Where(u => u.IsDoctor && u.ServiceSpecialization == "Dermatology");
+
+            if (!string.IsNullOrEmpty(specialization))
+            {
+                doctorsQuery = doctorsQuery.Where(u => u.ServiceSpecialization.Contains(specialization));
+            }
+
+            var doctors = doctorsQuery.ToList();
+            ViewBag.Specializations = new List<string> { "Dentist", "General Checkup", "Cardiology", "Dermatology", "Pediatrics" };
+            ViewBag.Doctors = doctors;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult BookDermatology(AppointmentViewModel model)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/Dermatology" });
+            }
+
+            if (ModelState.IsValid)
+            {
+                var appointment = new Appointment
+                {
+                    FullName = model.FullName,
+                    ContactNumber = model.ContactNumber,
+                    AppointmentDate = model.AppointmentDate,
+                    AppointmentTime = model.AppointmentTime,
+                    ServiceType = model.ServiceType,
+                    DoctorId = model.DoctorId
+                };
+
+                _context.Appointments.Add(appointment);
+                _context.SaveChanges();
+
+                TempData["AppointmentSuccess"] = "Your appointment has been booked successfully!";
+                return RedirectToAction("Appointments", "Home");
+            }
+
+            var doctors = _context.Users
+                .Where(u => u.IsDoctor && u.ServiceSpecialization == "Dermatology")
+                .ToList();
+            ViewBag.Doctors = doctors;
+
+            return View("Dermatology", model);
+        }
+
+        // Pediatrics Appointment
+        [HttpGet]
+        public IActionResult Pediatrics(string specialization)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/Pediatrics" });
+            }
+
+            var doctorsQuery = _context.Users
+                .Where(u => u.IsDoctor && u.ServiceSpecialization == "Pediatrics");
+
+            if (!string.IsNullOrEmpty(specialization))
+            {
+                doctorsQuery = doctorsQuery.Where(u => u.ServiceSpecialization.Contains(specialization));
+            }
+
+            var doctors = doctorsQuery.ToList();
+            ViewBag.Specializations = new List<string> { "Dentist", "General Checkup", "Cardiology", "Dermatology", "Pediatrics" };
+            ViewBag.Doctors = doctors;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult BookPediatrics(AppointmentViewModel model)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/Pediatrics" });
+            }
+
+            if (ModelState.IsValid)
+            {
+                var appointment = new Appointment
+                {
+                    FullName = model.FullName,
+                    ContactNumber = model.ContactNumber,
+                    AppointmentDate = model.AppointmentDate,
+                    AppointmentTime = model.AppointmentTime,
+                    ServiceType = model.ServiceType,
+                    DoctorId = model.DoctorId
+                };
+
+                _context.Appointments.Add(appointment);
+                _context.SaveChanges();
+
+                TempData["AppointmentSuccess"] = "Your appointment has been booked successfully!";
+                return RedirectToAction("Appointments", "Home");
+            }
+
+            var doctors = _context.Users
+                .Where(u => u.IsDoctor && u.ServiceSpecialization == "Pediatrics")
+                .ToList();
+            ViewBag.Doctors = doctors;
+
+            return View("Pediatrics", model);
         }
 
         [HttpGet]

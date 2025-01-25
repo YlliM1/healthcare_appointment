@@ -1,53 +1,48 @@
-﻿.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    margin-top: 10%;
+﻿.full-page-container {
+    position: relative; /* Container to position the search form */
+    padding-top: 10%; /* Adjust the padding as needed */
 }
 
-table {
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 20px; /* Adjust margin for better spacing */
+}
+
+.table {
     width: 100%;
 }
 
-.table th,
-.table td {
-    text-align: center;
-    vertical-align: middle;
+    .table th,
+    .table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+.btn-edit,
+.btn-delete,
+.btn-success {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 3px;
 }
 
 .btn-edit {
     background-color: #28a745;
     color: white;
-    border: none;
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 3px;
 }
-
-    .btn-edit i {
-        margin-right: 5px;
-    }
 
 .btn-delete {
     background-color: #dc3545;
     color: white;
-    border: none;
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 3px;
 }
-
-    .btn-delete i {
-        margin-right: 5px;
-    }
 
 .btn-success {
     font-weight: bold;
-    padding: 10px 20px;
     text-decoration: none;
     background-color: #28a745;
     color: white;
     border-radius: 5px;
-    float: right;
 }
 
     .btn-success:hover {
@@ -74,29 +69,114 @@ table {
     border-radius: 5px;
 }
 
-.pen{
+.pen {
     background-color: transparent;
 }
 
-.btn-edit{
-    background-color:transparent;
-    color: green;
-}
-
-.btn-edit:hover {
-   transform: scale(1.5);
-    color: green;
-    transition: 1s ease;
-}
-
-
-.btn-delete{
+.btn-edit {
     background-color: transparent;
-    color:red;
+    color: green;
 }
 
-.btn-delete:hover {
-    transform: scale(1.5);
+    .btn-edit:hover {
+        transform: scale(1.5);
+        color: green;
+        transition: 1s ease;
+    }
+
+.btn-delete {
+    background-color: transparent;
     color: red;
-    transition: 1s ease;
+}
+
+    .btn-delete:hover {
+        transform: scale(1.5);
+        color: red;
+        transition: 1s ease;
+    }
+
+.pagination .page-item .page-link {
+    background-color: #bfd8bf !important;
+    color: #333 !important;
+    border: 1px solid #a3bda3 !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #99b399 !important;
+    color: white !important;
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #e6e6e6 !important;
+    color: #b3b3b3 !important;
+}
+
+/* Search Form Positioning */
+.search-form {
+    position: absolute;
+    top: 20px; /* Adjust as needed */
+    right: 0; /* Adjust as needed */
+    z-index: 100; /* Ensure it is on top of other elements */
+}
+
+    .search-form .d-flex {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-form input,
+    .search-form .btn {
+        margin: 0 5px;
+    }
+
+
+.search-container {
+    position: absolute;
+    top: 100px; /* Adjust the top margin as needed */
+    right: 20px; /* Adjust the right margin as needed */
+    z-index: 1000; /* Ensure it stays on top of other content */
+    width: auto;
+}
+
+    .search-container .d-flex {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-container input,
+    .search-container .btn {
+        margin: 0 5px;
+    }
+
+
+    .search-container .btn {
+        background-color: #28a745;
+        border: none;
+    }
+
+        .search-container .btn:hover {
+            background-color: #218838;
+        }
+
+
+
+
+.h2-button {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+    .h2-button select {
+        margin-top: 5px;
+        margin-bottom: 30px;
+        background-color: #28a745;
+        border: none;
+        color: white;
+    }
+
+#contactsTableContainer.active ~ #searchContainer {
+    display: none;
 }
