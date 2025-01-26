@@ -146,7 +146,7 @@
         });
 
         function deleteUser(userId) {
-            fetch(`/AdminDashboard/DeleteUser/${userId}`, {
+            fetch(`/AdminDashboard/Delete/${userId}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             })

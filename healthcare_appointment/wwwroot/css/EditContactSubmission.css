@@ -1,0 +1,158 @@
+﻿/* CreateUser.css */
+
+/* Basic Layout */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Form Container */
+form {
+    max-width: 550px;
+    margin: 70px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 35%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Styling for input fields and labels */
+label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Make checkbox the same height as input */
+input.form-check-input {
+    width: 42px;
+    height: 42px; /* Same height as input fields */
+    margin-right: 10px;
+    vertical-align: middle;
+    padding: 0;
+    display: flex;
+}
+
+/* Flex Layout for form groups to arrange fields side by side */
+.row {
+    display: flex;
+    gap: 20px;
+}
+
+.col-md-6 {
+    flex: 1; /* Allow each field to take equal width */
+}
+
+/* Ensure that the last column (ServiceSpecialization) takes the remaining space */
+.specialization-group {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow it to take up remaining space */
+}
+
+    .specialization-group input.form-control {
+        flex-grow: 1 !important; /* Allow input to take remaining space */
+        width: 100%;
+    }
+
+/* Error Message Styling */
+span.text-danger {
+    font-size: 0.875rem;
+    color: #e74c3c;
+}
+
+/* Submit Button */
+button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: #bfd8bf;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    button[type="submit"]:hover {
+        background-color: #415941;
+        transition: 1s ease;
+    }
+
+/* Back Button */
+a.btn-secondary {
+    display: block;
+    padding: 15px;
+    background-color: #bfd8bf;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem; /* Match the font size of the Create button */
+    text-decoration: none;
+    transition: background-color 0.3s;
+    width: 100%; /* Ensure it stretches to take the full width */
+    margin-top: 0px !important;
+}
+
+    a.btn-secondary:hover {
+        background-color: #415941;
+    }
+
+/* Style for Buttons at the bottom */
+.bottom-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+    .bottom-buttons button,
+    .bottom-buttons a {
+        flex-grow: 1; /* Both buttons will take equal width */
+        padding: 15px; /* Same padding for both */
+        font-size: 1.2rem; /* Same font size for both */
+        border-radius: 5px;
+    }
+
+        /* Ensure both buttons fill the available space */
+        .bottom-buttons button[type="submit"],
+        .bottom-buttons a {
+            width: 100%; /* Make both buttons full width */
+        }
+
+
+/* Button Row Styling */
+.button-row {
+    display: flex; /* Arrange buttons in a row */
+    justify-content: flex-start; /* Align buttons to the left */
+    gap: 15px; /* Add spacing between buttons */
+    margin-top: 20px; /* Add space above the row */
+}
+
+    /* Optional: Make the buttons adjust width uniformly */
+    .button-row .btn {
+        flex: 0; /* Prevent buttons from stretching */
+        white-space: nowrap; /* Ensure text stays on a single line */
+    }

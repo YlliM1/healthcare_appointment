@@ -22,8 +22,11 @@ body {
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     margin-right:300px;
+    margin-bottom:70px !important;
    
 }
+
+
 
 h2 {
     text-align: center;
@@ -97,4 +100,27 @@ button {
     font-size: 14px;
     box-sizing: border-box;
 }
+
+.contactsub {
+    background-color: #bfd8bf ;
+    color: #fff;
+    border-radius: 0;
+    border: 1px solid #bfd8bf;
+    padding: 10px;
+    width: 130px;
+    margin: 20px 30px;
+}
+
+    .contactsub:hover {
+        background-color: #415941;
+        color: #fff;
+        border-radius: 0;
+        border: 1px solid #415941;
+        padding: 10px;
+        width: 130px;
+        margin: 20px 30px;
+    }
+
+
+
 

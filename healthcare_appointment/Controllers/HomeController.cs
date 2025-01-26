@@ -4,6 +4,7 @@ using System.Linq;
 using healthcare_appointment.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace healthcare_appointment.Controllers
 {
@@ -459,12 +460,110 @@ namespace healthcare_appointment.Controllers
                 _context.Contacts.Add(contact);
                 _context.SaveChanges();
 
-                TempData["ContactSuccessMessage"] = "Thank you for contacting us. We will get back to you shortly.";
+                TempData["SuccessMessage"] = "Thank you for contacting us. We will get back to you shortly.";
                 return RedirectToAction("ContactUs");
             }
 
             return View(model);
         }
+
+        [HttpDelete]
+        public IActionResult DeleteContact(int id)
+        {
+            try
+            {
+                _logger.LogInformation($"DeleteContact called with ID: {id}");
+
+                var contact = _context.Contacts.FirstOrDefault(c => c.Id == id);
+
+                if (contact == null)
+                {
+                    _logger.LogWarning($"Contact with ID {id} not found.");
+                    return Json(new { success = false, error = $"Contact with ID {id} not found." });
+                }
+
+                _context.Contacts.Remove(contact);
+                _context.SaveChanges();
+
+                _logger.LogInformation($"Contact with ID {id} deleted successfully.");
+                return Json(new { success = true, message = "Contact deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error occurred while deleting contact with ID {id}.");
+                return Json(new { success = false, error = "An unexpected error occurred." });
+            }
+        }
+
+
+
+
+        public IActionResult ContactSubmissions(int page = 1, int pageSize = 10)
+        {
+        // Ensure the user is authenticated and has the Admin role
+        if (!User.Identity.IsAuthenticated || !User.IsInRole("Admin"))
+        {
+            return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/ContactSubmissions" });
+        }
+
+        // Retrieve contact submissions with pagination
+        var totalContacts = _context.Contacts.Count();
+        var contacts = _context.Contacts
+            .OrderByDescending(c => c.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        // Pass pagination data to the view
+        ViewBag.Pagination = new AppointmentsPagination
+        {
+            CurrentPage = page,
+            TotalPages = (int)Math.Ceiling((double)totalContacts / pageSize)
+        };
+
+        return View(contacts);
+    }
+
+
+
+        public IActionResult EditContactSubmission(int id)
+        {
+            var contact = _context.Contacts.FirstOrDefault(c => c.Id == id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
+            return View(contact);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditContactSubmission(Contact model)
+        {
+            if (ModelState.IsValid)
+            {
+                var contact = _context.Contacts.FirstOrDefault(c => c.Id == model.Id);
+                if (contact != null)
+                {
+                    contact.FirstName = model.FirstName;
+                    contact.LastName = model.LastName;
+                    contact.PhoneNumber = model.PhoneNumber;
+                    contact.Description = model.Description;
+
+                    _context.SaveChanges();
+                    TempData["SuccessMessage"] = "Contact updated successfully.";
+                    return RedirectToAction("ContactSubmissions");
+                }
+                TempData["ErrorMessage"] = "Contact not found.";
+            }
+            return View(model);
+        }
+
+
+
+
+
 
         public IActionResult AboutUs()
         {

@@ -1,0 +1,88 @@
+﻿/* Center the content-container in the middle of the page */
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Full viewport height */
+    text-align: center; /* Center text alignment */
+    padding: 20px;
+}
+
+/* Ensure the table has proper width and styling */
+.table-container {
+    width: 100%;
+    max-width: 1000px; /* Limit the width of the table */
+    margin: 0 auto;
+    margin-left:20%;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+    .table th, .table td {
+        text-align: left;
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+
+
+
+.pagination-container {
+    width: 100%; /* Matches the width of the table-container */
+    max-width: 1000px; /* Prevents excessive width */
+    margin: 10px auto; /* Centers pagination and adds spacing */
+    display: flex;
+    justify-content: center;
+    margin-left: 15%;
+}
+
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+    .pagination .page-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+
+
+.pagination .page-item .page-link {
+    background-color: #bfd8bf !important;
+    color: #333 !important;
+    border: 1px solid #a3bda3 !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #99b399 !important;
+    color: white !important;
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #e6e6e6 !important;
+    color: #b3b3b3 !important;
+}
+
+.back-button-container {
+    margin-bottom: 20px;
+    position: absolute;
+    bottom: 24px;
+    right: 245px;
+}
+
+    .back-button-container a {
+        background-color: #bfd8bf;
+        border:none;
+    }
+
+        .back-button-container a:hover {
+            background-color: #415941;
+            transition:1s ease;
+        }
+

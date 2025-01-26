@@ -1,0 +1,158 @@
+﻿@model List<healthcare_appointment.Models.Contact>
+
+@{
+    var pagination = ViewBag.Pagination as healthcare_appointment.Models.AppointmentsPagination;
+}
+
+@section Styles {
+    <link href="~/css/ContactSubmissions.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+}
+
+<h2>Contact Submissions</h2>
+
+<div class="content-container">
+    <!-- Back to Contact Us Button -->
+    <div class="back-button-container">
+        <a href="@Url.Action("ContactUs", "Home")" class="btn btn-secondary">
+            Back to Contact Us
+        </a>
+    </div>
+
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone Number</th>
+                    <th>Description</th>
+                    <th>Submitted At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    int index = 1 + (pagination.CurrentPage - 1) * pagination.PageSize;
+                    foreach (var contact in Model)
+                    {
+                        <tr>
+                            <td>@index</td>
+                            <td>@contact.FirstName</td>
+                            <td>@contact.LastName</td>
+                            <td>@contact.PhoneNumber</td>
+                            <td>@contact.Description</td>
+                            <td>@contact.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>
+                                <button type="button"
+                                        class="btn btn-link delete-btn"
+                                        data-id="@contact.Id"
+                                        data-name="@contact.FirstName @contact.LastName">
+                                    <i class="fas fa-trash" style="color:red;"></i>
+                                </button>
+                                <a href="@Url.Action("EditContactSubmission", "Home", new { id = contact.Id })" class="btn btn-edit">
+                                    <i class="fas fa-pen" style="color: green;"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        index++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">No contact submissions available.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-container">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(pagination.CurrentPage > 1 ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("ContactSubmissions", new { page = pagination.CurrentPage - 1 })" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                @for (int i = 1; i <= pagination.TotalPages; i++)
+                {
+                    <li class="page-item @(i == pagination.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("ContactSubmissions", new { page = i })">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @(pagination.CurrentPage < pagination.TotalPages ? "" : "disabled")">
+                    <a class="page-link" href="@Url.Action("ContactSubmissions", new { page = pagination.CurrentPage + 1 })" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the contact submission for <strong id="modalItemName"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let deleteTarget = {};
+
+        document.addEventListener('click', function (event) {
+            if (event.target.closest('.delete-btn')) {
+                const button = event.target.closest('.delete-btn');
+                deleteTarget = {
+                    id: button.dataset.id,
+                    name: button.dataset.name
+                };
+
+                document.getElementById('modalItemName').textContent = deleteTarget.name;
+
+                const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                modal.show();
+            }
+        });
+
+        document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+            deleteItem(`/Home/DeleteContact?id=${encodeURIComponent(deleteTarget.id)}`);
+        });
+
+        function deleteItem(url) {
+            fetch(url, { method: 'DELETE' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload(); // Refresh the page to update the list
+                    } else {
+                        alert(data.error || 'Failed to delete the contact.');
+                    }
+                })
+                .catch(error => alert('An error occurred while deleting the contact.'));
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+            modal.hide();
+        }
+    </script>
+}

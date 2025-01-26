@@ -12,15 +12,23 @@
     <title>Contact Us - Healthcare Appointment</title>
 </head>
 <body>
+    @if (User.IsInRole("Admin"))
+    {
+        <a class="nav-link contactsub" asp-action="ContactSubmissions" asp-controller="Home">View All Contacts</a>
+    }
     <div class="contact-container">
         <h2>Contact Us</h2>
+
+  
+
 
         @if (TempData["SuccessMessage"] != null)
         {
             <div class="alert alert-success">
-                @TempData["ContactSuccessMessage"]
+                @TempData["SuccessMessage"]
             </div>
         }
+
 
         <form asp-action="ContactUs" asp-controller="Home" method="post" class="contact-form">
             @Html.AntiForgeryToken()
