@@ -8,7 +8,6 @@
 <div class="d-flex justify-content-start mb-3" style="position: absolute; top: 100px; left: 20px;">
     <button class="btn btn-group active" id="allUsersBtn" style="background-color: #bfd8bf; color: #fff; border-radius: 0; border: 1px solid #bfd8bf;padding:10px;">All Users</button>
     <button class="btn btn-group" id="doctorsBtn" style="background-color: #bfd8bf; color: #fff; border-radius: 0; border: 1px solid #bfd8bf;padding:10px;">Doctors</button>
-    <button class="btn btn-group" id="contactsBtn" style="background-color: #bfd8bf; color: #fff; border-radius: 0; border: 1px solid #bfd8bf;padding:10px;">Contacts</button>
 </div>
 
 <!-- Search Form (Top Right) -->
@@ -97,26 +96,6 @@
                 </ul>
             </nav>
         </div>
-
-        <!-- Contacts Table Section (Hidden until "Contacts" tab is selected) -->
-        <div id="contactsTableContainer" style="display: none;">
-            <h2>Manage Contacts</h2>
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Phone Number</th>
-                        <th>Description</th>
-                        <th>Created At</th>
-                        <th>Actions</th> <!-- New column for actions -->
-                    </tr>
-                </thead>
-                <tbody id="contactsTableBody">
-                    <!-- Contact data will be populated here -->
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
 
@@ -161,8 +140,6 @@
         document.getElementById('confirmDeleteButton').addEventListener('click', function () {
             if (itemTypeToDelete === 'user') {
                 deleteUser(itemIdToDelete);
-            } else if (itemTypeToDelete === 'contact') {
-                deleteContact(itemIdToDelete);
             }
             var myModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
             myModal.hide();
@@ -184,26 +161,8 @@
             .catch(error => alert('Failed to delete user'));
         }
 
-        function deleteContact(contactId) {
-            fetch(`/AdminDashboard/DeleteContact/${contactId}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById(`contactRow-${contactId}`).remove();
-                } else {
-                    alert(data.error || 'Failed to delete contact');
-                }
-            })
-            .catch(error => alert('Failed to delete contact'));
-        }
-
-        // Tab Switcher Logic
         document.getElementById('doctorsBtn').addEventListener('click', function () {
             document.getElementById('usersTableContainer').style.display = 'block';
-            document.getElementById('contactsTableContainer').style.display = 'none';
             document.getElementById('searchContainer').style.display = 'block'; // Show search bar
             filterDoctors();
             updateButtonState('doctorsBtn');
@@ -211,46 +170,10 @@
 
         document.getElementById('allUsersBtn').addEventListener('click', function () {
             document.getElementById('usersTableContainer').style.display = 'block';
-            document.getElementById('contactsTableContainer').style.display = 'none';
             document.getElementById('searchContainer').style.display = 'block'; // Show search bar
             showAllUsers();
             updateButtonState('allUsersBtn');
         });
-
-        document.getElementById('contactsBtn').addEventListener('click', function () {
-            document.getElementById('usersTableContainer').style.display = 'none';
-            document.getElementById('contactsTableContainer').style.display = 'block';
-            document.getElementById('searchContainer').style.display = 'none'; // Hide search bar
-            updateButtonState('contactsBtn');
-            loadContacts();
-        });
-
-        function loadContacts() {
-            fetch('/AdminDashboard/ContactList')
-                .then(response => response.json())
-                .then(data => {
-                    const contactsTableBody = document.getElementById('contactsTableBody');
-                    contactsTableBody.innerHTML = '';
-                    data.forEach(contact => {
-                        const row = document.createElement('tr');
-                        row.id = `contactRow-${contact.id}`;
-                        row.innerHTML = `
-                            <td>${contact.firstName}</td>
-                            <td>${contact.lastName}</td>
-                            <td>${contact.phoneNumber}</td>
-                            <td>${contact.description}</td>
-                            <td>${contact.createdAt}</td>
-                            <td>
-                                <button type="button" class="btn btn-delete" onclick="showDeleteModal('${contact.id}', 'contact')">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        `;
-                        contactsTableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Error fetching contacts:', error));
-        }
 
         function filterDoctors() {
             const selectedSpecialization = document.getElementById('specializationSelect').value;

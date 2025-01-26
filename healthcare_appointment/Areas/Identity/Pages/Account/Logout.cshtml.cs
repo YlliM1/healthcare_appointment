@@ -19,12 +19,21 @@ namespace healthcare_appointment.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            // Clear the session
+            HttpContext.Session.Clear();
+
+            // Sign out the user
             await _signInManager.SignOutAsync();
+
             _logger.LogInformation("User logged out.");
 
-            // Redirect to the homepage after logout
+            // Redirect to the homepage or specified return URL
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return LocalRedirect(returnUrl);
+            }
+
             return RedirectToAction("Index", "Home", new { area = "" });
         }
-
     }
 }

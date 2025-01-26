@@ -23,6 +23,17 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Identity/Account/Login";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Cookie expires after 30 minutes
+    options.SlidingExpiration = true; // Reset expiration time on active use
+});
+
+// Add session services
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
+    options.Cookie.HttpOnly = true; // Prevent JavaScript access
+    options.Cookie.IsEssential = true; // For GDPR compliance
 });
 
 builder.Services.AddControllersWithViews()
@@ -40,6 +51,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Enable session middleware
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();

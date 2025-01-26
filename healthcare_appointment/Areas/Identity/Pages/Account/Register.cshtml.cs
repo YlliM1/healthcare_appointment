@@ -98,6 +98,11 @@ namespace healthcare_appointment.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    // Store user data in session
+                    HttpContext.Session.SetString("UserId", user.Id);
+                    HttpContext.Session.SetString("UserName", user.UserName);
+                    HttpContext.Session.SetString("UserEmail", user.Email);
+
                     // Sign in the user directly
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
@@ -110,9 +115,10 @@ namespace healthcare_appointment.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            // If we got this far, something failed; redisplay form
             return Page();
         }
+
 
         private ApplicationUser CreateUser()
         {

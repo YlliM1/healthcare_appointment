@@ -7,8 +7,19 @@
     <link href="~/css/appointments.css" rel="stylesheet" />
 }
 
+@{
+    ViewData["Title"] = "Book an Appointment";
+    bool isAdmin = User.IsInRole("Admin");
+}
+
 <section class="appointment-section py-5">
     <div class="container">
+        @if (isAdmin)
+        {
+            <a href="/Home/AppointmentOverview" style="background-color: #bfd8bf; color: #fff; border-radius: 0; border: 1px solid #bfd8bf;padding:10px;" class="btn btn-secondary">View All Appointments</a>
+        }
+
+
         <h2 class="text-center mb-4">Choose a Service</h2>
         <div class="row">
             <!-- Card 1: General Check-Up -->

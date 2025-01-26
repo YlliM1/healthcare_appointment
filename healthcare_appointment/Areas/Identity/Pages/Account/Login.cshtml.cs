@@ -67,19 +67,25 @@ namespace healthcare_appointment.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            // Ensure the return URL points to the main page
             returnUrl ??= Url.Content("~/");
-
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
 
-                    // Redirect to the main page (Home/Index) after login
+                    // Get the logged-in user
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                    // Store user data in session
+                    HttpContext.Session.SetString("UserId", user.Id);
+                    HttpContext.Session.SetString("UserName", user.UserName);
+                    HttpContext.Session.SetString("UserEmail", user.Email);
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -101,5 +107,6 @@ namespace healthcare_appointment.Areas.Identity.Pages.Account
             // If we got this far, something failed; redisplay form
             return Page();
         }
+
     }
 }

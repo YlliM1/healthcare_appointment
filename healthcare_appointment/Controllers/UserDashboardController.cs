@@ -24,6 +24,54 @@ namespace healthcare_appointment.Controllers
             _logger = logger;
         }
 
+
+        // Add this to UserDashboardController
+
+        // GET: UserDashboard/EditProfile
+        public async Task<IActionResult> EditProfile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            return View(user); // Pass the user data to the EditProfile view
+        }
+
+        // POST: UserDashboard/EditProfile
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfile(ApplicationUser updatedUser)
+        {
+            if (!ModelState.IsValid) return View(updatedUser);
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            // Update user details
+            user.FirstName = updatedUser.FirstName;
+            user.LastName = updatedUser.LastName;
+            user.UserName = updatedUser.UserName;
+            user.Email = updatedUser.Email;
+
+            // Save changes
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User profile updated successfully.");
+                TempData["SuccessMessage"] = "Profile updated successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(updatedUser);
+        }
+
+
+
+
         // GET: UserDashboard/Index
         public async Task<IActionResult> Index()
         {

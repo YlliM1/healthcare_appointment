@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace healthcare_appointment.Models // Ensure this namespace matches your project's structure
@@ -15,5 +16,9 @@ namespace healthcare_appointment.Models // Ensure this namespace matches your pr
 
         [MaxLength(100)]
         public string? ServiceSpecialization { get; set; }
+
+
+        [NotMapped]
+        public string FullName => $"{FirstName} {LastName}";
     }
 }

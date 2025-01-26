@@ -34,6 +34,90 @@ namespace healthcare_appointment.Controllers
             return View();
         }
 
+
+
+        public IActionResult AppointmentOverview(int page = 1, int pageSize = 10)
+        {
+            // Ensure the user is authenticated
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account", new { area = "Identity", returnUrl = "/Home/AppointmentOverview" });
+            }
+
+            // Retrieve appointments with pagination
+            var totalAppointments = _context.Appointments.Count();
+            var appointments = _context.Appointments
+                .OrderBy(a => a.AppointmentDate)
+                .ThenBy(a => a.AppointmentTime)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            // Map DoctorId to DoctorName
+            var doctorNames = _context.Users
+                .Where(u => u.IsDoctor)
+                .ToDictionary(u => u.Id, u => $"{u.FirstName} {u.LastName}");
+            ViewBag.DoctorNames = doctorNames;
+
+            // Pass pagination data to the view
+            ViewBag.Pagination = new AppointmentsPagination
+            {
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling((double)totalAppointments / pageSize)
+            };
+
+            return View(appointments.Select(a => new AppointmentViewModel
+            {
+                FullName = a.FullName,
+                ContactNumber = a.ContactNumber,
+                AppointmentDate = a.AppointmentDate,
+                AppointmentTime = a.AppointmentTime,
+                ServiceType = a.ServiceType,
+                DoctorId = a.DoctorId
+            }).ToList());
+        }
+
+
+        public IActionResult DeleteAppointment(string fullName, string contactNumber)
+        {
+            if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(contactNumber))
+            {
+                return Json(new { success = false, message = "Full name and contact number are required." });
+            }
+
+            try
+            {
+                // Search for the appointment based on fullName and contactNumber
+                var appointment = _context.Appointments
+                    .FirstOrDefault(a => a.FullName == fullName && a.ContactNumber == contactNumber);
+
+                if (appointment == null)
+                {
+                    return Json(new { success = false, message = "Appointment not found." });
+                }
+
+                // Remove the appointment from the database
+                _context.Appointments.Remove(appointment);
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "Appointment successfully deleted." });
+            }
+            catch (Exception ex)
+            {
+                // Log the error for debugging purposes
+                _logger.LogError(ex, "Error deleting appointment.");
+                return Json(new { success = false, message = "An error occurred while deleting the appointment." });
+            }
+        }
+
+
+
+
+
+
+
+
+
         public IActionResult Privacy()
         {
             return View();
@@ -353,6 +437,7 @@ namespace healthcare_appointment.Controllers
         [HttpGet]
         public IActionResult ContactUs()
         {
+            TempData.Remove("SuccessMessage");
             return View();
         }
 
@@ -374,7 +459,7 @@ namespace healthcare_appointment.Controllers
                 _context.Contacts.Add(contact);
                 _context.SaveChanges();
 
-                TempData["SuccessMessage"] = "Thank you for contacting us. We will get back to you shortly.";
+                TempData["ContactSuccessMessage"] = "Thank you for contacting us. We will get back to you shortly.";
                 return RedirectToAction("ContactUs");
             }
 
